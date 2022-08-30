@@ -174,7 +174,7 @@ $ git config --global -e
 
 ## To rename a file 
 
-### Using Git
+### To rename a file | Using Git
 ```
 $ ls
 README.md   example.txt
@@ -197,7 +197,7 @@ $ git commit -m "Renaming files in Git Course"
 
 ```
 
-### Outside Git
+### To rename a file | Outside Git
 ```
 $ touch myfile.txt
 
@@ -254,7 +254,9 @@ $ git commit -m "Renaming myfile in Git Course"
 
 ```
 
-## To remove a file using Git
+## To remove a file 
+
+### To remove a file | Using Git
 ```
 $ ls
 README.md   demo.txt
@@ -275,12 +277,36 @@ $ git commit -m "Deleting demo file in Git Course"
 [master d737204] Deleting demo file in Git Course
  1 file changed, 1 deletion(-)
  delete mode 100644 demo.txt
- 
+```
+
+### To remove a file | Ouside Git
+```
 $ ls -l
 total 229
 -rw-r--r-- 1 jacesca 197121     78 Aug 30 15:01  README.md
 -rw-r--r-- 1 jacesca 197121      0 Aug 30 17:32  myfile.log
 
+$ rm myfile.log
+
+$ ls -l
+total 229
+-rw-r--r-- 1 jacesca 197121     78 Aug 30 15:01  README.md
+
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    myfile.log
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git add -u
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        deleted:    myfile.log
+$ git commit -m "Removing myfile from Git course"
 ```
 
 
