@@ -229,8 +229,30 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 $ git status
 
-$
+$ git add -u #Only for updates
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        deleted:    myfile.txt
 
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        myfile.log
+		
+$ git add -A
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        renamed:    myfile.txt -> myfile.log
+		
+$ git commit -m "Renaming myfile in Git Course"
+[master 7abddd5] Renaming myfile in Git Course
+ 2 files changed, 83 insertions(+)
+ rename myfile.txt => myfile.log (100%)
+
+```
 
 ## To remove a file using Git
 ```
@@ -253,6 +275,12 @@ $ git commit -m "Deleting demo file in Git Course"
 [master d737204] Deleting demo file in Git Course
  1 file changed, 1 deletion(-)
  delete mode 100644 demo.txt
+ 
+$ ls -l
+total 229
+-rw-r--r-- 1 jacesca 197121     78 Aug 30 15:01  README.md
+-rw-r--r-- 1 jacesca 197121      0 Aug 30 17:32  myfile.log
+
 ```
 
 
