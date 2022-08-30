@@ -79,3 +79,77 @@ Local Git STates
 To add files to the git track
 >> git status
 >> git add .
+>> git commit -m "Git Course"
+
+If you only "use git commit", as we are already configured Notepad, an editor will be open to add the information we want to name this commit. Once we add the description we want (First line), we close the editor and return to the git bash.
+
+To delete a repository in Git, in the working directory
+>> rm -rf .git
+
+To show the list of commits:
+>> git log
+commit a219a73f7c896d983182db3cc24f3722e634189c (HEAD -> master)
+Author: Jacqueline Escalante <jacesca@gmail.com>
+Date:   Tue Aug 30 14:23:04 2022 -0600
+
+    Adding initial files to Git Course
+
+
+or
+>> git show
+commit a219a73f7c896d983182db3cc24f3722e634189c (HEAD -> master)
+Author: Jacqueline Escalante <jacesca@gmail.com>
+Date:   Tue Aug 30 14:23:04 2022 -0600
+
+    Adding initial files to Git Course
+
+diff --git a/Installing Git.txt b/Installing Git.txt
+new file mode 100644
+index 0000000..4f5ad88
+--- /dev/null
++++ b/Installing Git.txt
+@@ -0,0 +1,81 @@
++Installing GIT
++*****
++***** Git for windows
++*****
++(1) https://git-scm.com/
++Download the last version
++
++(2) In git bash:
++>> git config --global user.name "Jacqueline Escalante"
++>> git config --global user.email "jacesca@gmail.com"
++
++*****
++***** Notepad ++
++*****
++(3) https://notepad-plus-plus.org/
++
++(4) Append it to the System's Path Variable
++In the explorer, look for "This PC"
++Click right and select Properties
++Select System on the left menu
++Select Advanced System Settings option (as tab) in the right side of the window
++Choose Advanced Tab
++Click on Environment Variables button
++Go to System Variables
++Look for Path
+:
+--> exit with "q"
+
+
+To clear the command window
+>>clear
+
+To stop .bak file creation in notepad++
+Open Notepad++ and go to Settings=>Preferences=>Backup than select “None” from Backup on save. 
+
+
+To see which files git is tracking
+>> git ls-files
+
+To create a new file
+>> touch new.file
+
+To delete a file
+>> rm new.file
