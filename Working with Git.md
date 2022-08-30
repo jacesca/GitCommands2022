@@ -172,6 +172,89 @@ Next command is to open the file where this global configuration is saved
 $ git config --global -e
 ```
 
+## To rename a file 
+
+### Using Git
+```
+$ ls
+README.md   example.txt
+
+$ git mv example.txt demo.txt
+
+$ ls
+README.md   demo.txt
+
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        renamed:    example.txt -> demo.txt
+
+$ git commit -m "Renaming files in Git Course"
+[master 8e03dfb] Renaming files in Git Course
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename example.txt => demo.txt (100%)
+
+```
+
+### Outside Git
+```
+$ touch myfile.txt
+
+$ ls
+README.md   myfile.txt
+
+$ git add myfile.txt
+$ git commit -m "The myfile.txt was added to Git Course"
+
+$ mv myfile.txt myfile.log
+
+$ ls -l
+total 229
+-rw-r--r-- 1 jacesca 197121     78 Aug 30 15:01  README.md
+-rw-r--r-- 1 jacesca 197121      0 Aug 30 17:32  myfile.log
+
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    myfile.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        myfile.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git status
+
+$
+
+
+## To remove a file using Git
+```
+$ ls
+README.md   demo.txt
+
+$ git rm demo.txt
+rm 'demo.txt'
+
+$ ls
+README.md
+
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        deleted:    demo.txt
+
+$ git commit -m "Deleting demo file in Git Course"
+[master d737204] Deleting demo file in Git Course
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 demo.txt
+```
+
 
 ##
 
