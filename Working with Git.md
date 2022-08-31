@@ -702,8 +702,6 @@ README.md
 Normal merge conflict for 'README.md':
   {local}: modified file
   {remote}: modified file
-warning: in the working copy of 'README.md', CRLF will be replaced by LF the next time Git touches it
-
 
 $ git status
 On branch master
@@ -812,8 +810,331 @@ diff --git a/.gitignore b/.gitignore
 :
 ```
 
-# Stashing
+# Stashing (WIP: Working in Progress)
+```
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+no changes added to commit (use "git add" and/or "git commit -a")
 
+$ git stash
+Saved working directory and index state WIP on master: f4d3c33 Updating the documentation in Git course
+
+$ git stash list
+stash@{0}: WIP on master: f4d3c33 Updating the documentation in Git course
+
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ npp LICENSE.txt
+$ git add .
+$ git commit -m "Adding LICENSE file to Git Course"
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ git stash pop
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (75ca6d68bbc4a87c218a99991841d59865ef14fb)
+
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git stash list
+<--  Nothing to show, empty
+
+$ git commit -am "Updating README file again in Git Course"
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
+
+# Reset and Reflog
+
+## Reset
+1. Soft reset :arrow_right: which is the least destructive of them all; basically, all it does is change where HEAD is pointing, preservint the Git staging area and our working directory. Effectively, we can back out our changes, make minor modifications to them, and then commit where head is currently pointing.
+2. Mixed reset :arrow_right: which is the default value. This reset will unstage the number of changes.
+3. Hard reset :arrow_right: which is the most destructive. It simply tells us that our HEAD is now at a new location,
+
+### Soft Reset
+```
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ npp README.md <-- First Change
+$ git add .
+
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   README.md
+
+
+$ npp README.md <-- Second Change
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   README.md
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+$ git history
+* f8c8a78 (HEAD -> master) Updating README file again in Git Course
+* d0eb781 Adding LICENSE file to Git Course
+* f4d3c33 Updating the documentation in Git course
+* 65b2496 (tag: v1.0) Update on merge commands for Git Course
+
+$ git reset f4d3c33 --soft
+$ git history
+* f4d3c33 (HEAD -> master) Updating the documentation in Git course
+* 65b2496 (tag: v1.0) Update on merge commands for Git Course
+
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   LICENSE.txt
+        modified:   README.md
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+```
+
+### Mixed reset
+```
+$ git history
+* f4d3c33 (HEAD -> master) Updating the documentation in Git course
+* 65b2496 (tag: v1.0) Update on merge commands for Git Course
+*   848632c Resolving conflicts in Git course
+|\
+| * 4a2547c (very-bad) Updates in very-bad branch for Git course III
+* | a749b44 Updates in master branch for Git course III
+* | ff4dd3d Causing issues again in Git course III
+* | 583c22d Causing issues again in Git course II
+|\|
+| * 24fd142 Very-bad updates in Git course
+* | 2a5d893 Causing issues again in Git course
+|/
+* 4c641bb Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   LICENSE.txt
+        modified:   README.md
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+$ git reset 489a920 --mixed
+Unstaged changes after reset:
+M       .gitignore
+M       Installing Git.md
+M       README.md
+M       Working with Git.md
+
+$ git history
+* 65b2496 (tag: v1.0) Update on merge commands for Git Course
+*   848632c Resolving conflicts in Git course
+|\
+| * 4a2547c (very-bad) Updates in very-bad branch for Git course III
+* | a749b44 Updates in master branch for Git course III
+* | ff4dd3d Causing issues again in Git course III
+* | 583c22d Causing issues again in Git course II
+|\|
+| * 24fd142 Very-bad updates in Git course
+* | 2a5d893 Causing issues again in Git course
+|/
+* 4c641bb Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 (HEAD -> master) Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   .gitignore
+        modified:   Installing Git.md
+        modified:   README.md
+        modified:   Working with Git.md
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        LICENSE.txt
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+### Hard reset
+```
+$ git reset 6ea6aed --hard
+HEAD is now at 6ea6aed Second update in Git Course
+
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        LICENSE.txt
+        app.log
+nothing added to commit but untracked files present (use "git add" to track)
+
+$ git history
+* 65b2496 (tag: v1.0) Update on merge commands for Git Course
+*   848632c Resolving conflicts in Git course
+|\
+| * 4a2547c (very-bad) Updates in very-bad branch for Git course III
+* | a749b44 Updates in master branch for Git course III
+* | ff4dd3d Causing issues again in Git course III
+* | 583c22d Causing issues again in Git course II
+|\|
+| * 24fd142 Very-bad updates in Git course
+* | 2a5d893 Causing issues again in Git course
+|/
+* 4c641bb Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed (HEAD -> master) Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git log --oneline
+6ea6aed (HEAD -> master) Second update in Git Course
+a219a73 Adding initial files to Git Course
+```
+
+## Reflog
+- It is not simmilar to "git log". 
+- "git log" shows us our commit ids.
+- "git reflog" shows us all the different actions we have taken while in this repository. This allows us to get all the way back to a specific commit id if we need to.
+```
+$ git reflog
+6ea6aed (HEAD -> master) HEAD@{0}: reset: moving to 6ea6aed
+b736503 HEAD@{1}: reset: moving to b736503
+489a920 HEAD@{2}: reset: moving to 489a920
+f4d3c33 HEAD@{3}: reset: moving to f4d3c33
+d0eb781 HEAD@{4}: reset: moving to d0eb781
+f8c8a78 HEAD@{5}: commit: Updating README file again in Git Course
+d0eb781 HEAD@{6}: commit: Adding LICENSE file to Git Course
+f4d3c33 HEAD@{7}: reset: moving to HEAD
+f4d3c33 HEAD@{8}: commit: Updating the documentation in Git course
+65b2496 (tag: v1.0) HEAD@{9}: commit: Update on merge commands for Git Course
+848632c HEAD@{10}: commit (merge): Resolving conflicts in Git course
+a749b44 HEAD@{11}: commit: Updates in master branch for Git course III
+ff4dd3d HEAD@{12}: checkout: moving from very-bad to master
+4a2547c (very-bad) HEAD@{13}: commit: Updates in very-bad branch for Git course III
+24fd142 HEAD@{14}: checkout: moving from master to very-bad
+ff4dd3d HEAD@{15}: commit: Causing issues again in Git course III
+583c22d HEAD@{16}: commit (merge): Causing issues again in Git course II
+2a5d893 HEAD@{17}: commit: Causing issues again in Git course
+4c641bb HEAD@{18}: checkout: moving from very-bad to master
+24fd142 HEAD@{19}: commit: Very-bad updates in Git course
+4c641bb HEAD@{20}: checkout: moving from master to very-bad
+4c641bb HEAD@{21}: merge updates: Fast-forward
+d845615 HEAD@{22}: checkout: moving from updates to master
+4c641bb HEAD@{23}: commit: Adding some updates on a branch for the Git course
+d845615 HEAD@{24}: checkout: moving from master to updates
+d845615 HEAD@{25}: commit: Update No.12 in Git Course
+489a920 HEAD@{26}: commit: Adding .gitignore to Git Course
+87e3ed0 HEAD@{27}: commit: Another update to documentation in Git Course
+04ce9bb HEAD@{28}: commit: Removing myfile from Git course
+7abddd5 HEAD@{29}: commit: Renaming myfile in Git Course
+4f41760 HEAD@{30}: commit: The myfile.txt was added to Git Course
+d737204 HEAD@{31}: commit: Deleting demo file in Git Course
+8e03dfb HEAD@{32}: commit: Renaming files in Git Course
+e8b4ab8 HEAD@{33}: commit: Adding example file to Git Course
+b736503 HEAD@{34}: commit: Adding md files to Git Course
+2898aac HEAD@{35}: commit: Third commit in Git Course
+6ea6aed (HEAD -> master) HEAD@{36}: reset: moving to HEAD
+6ea6aed (HEAD -> master) HEAD@{37}: reset: moving to HEAD
+: 
+
+$ git reset --hard f8c8a78
+HEAD is now at f8c8a78 Updating README file again in Git Course
+
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ git log --oneline
+f8c8a78 (HEAD -> master) Updating README file again in Git Course
+d0eb781 Adding LICENSE file to Git Course
+f4d3c33 Updating the documentation in Git course
+65b2496 (tag: v1.0) Update on merge commands for Git Course
+848632c Resolving conflicts in Git course
+a749b44 Updates in master branch for Git course III
+4a2547c (very-bad) Updates in very-bad branch for Git course III
+ff4dd3d Causing issues again in Git course III
+583c22d Causing issues again in Git course II
+2a5d893 Causing issues again in Git course
+24fd142 Very-bad updates in Git course
+4c641bb Adding some updates on a branch for the Git course
+d845615 Update No.12 in Git Course
+489a920 Adding .gitignore to Git Course
+87e3ed0 Another update to documentation in Git Course
+04ce9bb Removing myfile from Git course
+7abddd5 Renaming myfile in Git Course
+4f41760 The myfile.txt was added to Git Course
+d737204 Deleting demo file in Git Course
+8e03dfb Renaming files in Git Course
+e8b4ab8 Adding example file to Git Course
+b736503 Adding md files to Git Course
+2898aac Third commit in Git Course
+6ea6aed Second update in Git Course
+a219a73 Adding initial files to Git Course
+```
 
 ##
 
