@@ -748,6 +748,72 @@ $ git history
 
 ```
 
+## Setting milestones with tag
+
+### Lightweight tags
+There's no associated information with it
+```
+$ git tag --list
+
+$ git tag mytag
+
+$ git tag --list
+mytag
+
+$ git history
+* 65b2496 (HEAD -> master, tag: mytag) Update on merge commands for Git Course
+  ...
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+```
+
+To delete the tag
+```
+$ git tag -d mytag
+Deleted tag 'mytag' (was 65b2496)
+
+$ git history
+* 65b2496 (HEAD -> master) Update on merge commands for Git Course
+  ...
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+```
+
+### Annotated tags
+These tags have extra information associated with them.
+```
+$ git tag -a v1.0 -m "Release 1.0"
+
+$ git tag --list
+v1.0
+
+$ git history
+* 65b2496 (HEAD -> master, tag: v1.0) Update on merge commands for Git Course
+  ...
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git show v1.0
+tag v1.0
+Tagger: Jacqueline Escalante <jacesca@gmail.com>
+Date:   Wed Aug 31 08:15:31 2022 -0600
+
+Release 1.0
+
+commit 65b249625d864db2d0b5892f3175e04a4f4a219a (HEAD -> master, tag: v1.0)
+Author: Jacqueline Escalante <jacesca@gmail.com>
+Date:   Tue Aug 30 23:54:07 2022 -0600
+
+    Update on merge commands for Git Course
+
+diff --git a/.gitignore b/.gitignore
+  ...
+:
+```
+
+# Stashing
+
 
 ##
 
