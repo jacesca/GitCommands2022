@@ -309,6 +309,46 @@ Changes to be committed:
 $ git commit -m "Removing myfile from Git course"
 ```
 
+## To exclude files
+```
+$ ls -l
+total 230
+-rw-r--r-- 1 jacesca 197121     78 Aug 30 15:01  README.md
+-rw-r--r-- 1 jacesca 197121     81 Aug 30 17:58  app.log
+
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        app.log
+nothing added to commit but untracked files present (use "git add" to track)
+
+$ npp .gitignore
+
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+$ git add .gitignore
+$ git commit -m "Adding .gitignore to Git Course"
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ ls -al
+total 239
+drwxr-xr-x 1 jacesca 197121      0 Aug 30 18:01  ./
+drwxr-xr-x 1 jacesca 197121      0 Aug 30 10:43  ../
+drwxr-xr-x 1 jacesca 197121      0 Aug 30 18:05  .git/
+-rw-r--r-- 1 jacesca 197121      5 Aug 30 18:02  .gitignore
+-rw-r--r-- 1 jacesca 197121     78 Aug 30 15:01  README.md
+-rw-r--r-- 1 jacesca 197121     81 Aug 30 17:58  app.log
+```
+We add: "*.log" to the ".gitignore" file
 
 ##
 
