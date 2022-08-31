@@ -68,4 +68,5 @@ $ git config --global difftool.prompt false
 $ git config --global merge.tool p4merge
 $ git config --global mergetool.p4merge.path "c:/Program Files/Perforce/p4merge.exe"
 $ git config --global mergetool.prompt false
+$ git config --global mergetool.keepBackup false
 ```

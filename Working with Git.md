@@ -350,6 +350,405 @@ drwxr-xr-x 1 jacesca 197121      0 Aug 30 18:05  .git/
 ```
 We add: "*.log" to the ".gitignore" file
 
+## To see the differences between two commit points
+```
+$ git history
+* d845615 (HEAD -> master) Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git diff 6ea6aed HEAD
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..bf0824e
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1 @@
++*.log
+\ No newline at end of file
+diff --git a/Installing Git.md b/Installing Git.md
+new file mode 100644
+index 0000000..44d3fd8
+--- /dev/null
++++ b/Installing Git.md
+@@ -0,0 +1,71 @@
++# Installing GIT (Windows)
++
++## Git
++1. Go to https://git-scm.com/ and download the last Git version
++>- In the custom configuration, add the git icon to the desktop, allow use git from the window command prompt abd checkout as-is (unix style).
++
++2. In git bash:
++$ git config --global user.name "Jacqueline Escalante"
++$ git config --global user.email "jacesca@gmail.com"
++
++## Notepad++
++3. Install Notepad++ from https://notepad-plus-plus.org/
++
++4. Append it to the System's Path Variable
++>- In the explorer, look for "This PC"
++>- Click right and select Properties
++>- Select System on the left menu
++>- Select Advanced System Settings option (as tab) in the right side of the window
++>- Choose Advanced Tab
++>- Click on Environment Variables button
++>- Go to System Variables
+:
+```
+
+## To see what is recently changed
+```
+$ npp README.md
+
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git diff
+diff --git a/README.md b/README.md
+index b0cf6d8..1c53031 100644
+--- a/README.md
++++ b/README.md
+@@ -3,4 +3,5 @@
+ This is the readme file.
+
+ # Update
+-(Second version)
+\ No newline at end of file
++(Second version)
++Adding some updates
+\ No newline at end of file
+
+
+$ git difftool
+```
+
+##
+
+# Working with Branch
+
+## To visualize the branches
+```
+$ git branch
+* master
+```
+## To update changes on a different branch
+```
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git checkout -b updates
+Switched to a new branch 'updates'
+
+$ git branch
+  master
+* updates
+
+$ git status
+On branch updates
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git add .
+$ git commit -m "Adding some updates on a branch for the Git course"
+$ git status
+On branch updates
+nothing to commit, working tree clean
+
+$ git history
+* 4c641bb (HEAD -> updates) Adding some updates on a branch for the Git course
+* d845615 (master) Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+```
+
+## To see differences between branches
+```
+$ git diff updates master
+diff --git a/README.md b/README.md
+index d243b5e..b0cf6d8 100644
+--- a/README.md
++++ b/README.md
+@@ -3,5 +3,4 @@
+ This is the readme file.
+
+ # Update
+-(Second version)
+-Adding some updates on a branch
+\ No newline at end of file
++(Second version)
+\ No newline at end of file
+```
+
+## To integrate changes in the master branch
+```
+$ git branch
+  master
+* updates
+
+$ git checkout master
+Switched to branch 'master'
+
+$ git branch
+* master
+  updates
+
+$ git history
+* 4c641bb (updates) Adding some updates on a branch for the Git course
+* d845615 (HEAD -> master) Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+```
+
+### Fast Forward
+Make merge from a branch in the current branch
+> p.e. master is the current branch, and updates will be the branch, as parameter, that we need to merge in the current brach
+```
+$ git merge updates
+Updating d845615..4c641bb
+Fast-forward
+ README.md | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+$ git history
+* 4c641bb (HEAD -> master, updates) Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+```
+
+We can delete the updates branch because that will not be needed anymore
+```
+$ git branch -d updates
+Deleted branch updates (was 4c641bb).
+
+$ git history
+* 4c641bb (HEAD -> master) Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+```
+
+## Dealing with conflicts
+```
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ git branch
+* master
+
+$ git checkout -b 'very-bad'
+Switched to a new branch 'very-bad'
+
+$ git branch -a
+  master
+* very-bad
+```
+
+Now we are going to update readme.md file in very-bad branch
+```
+$ npp README.md
+
+$ git commit -am "Very-bad updates in Git course"
+[very-bad 24fd142] Very-bad updates in Git course
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+$ git history
+* 24fd142 (HEAD -> very-bad) Very-bad updates in Git course
+* 4c641bb (master) Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+```
+
+And then, we move again to Master branch and update readme.md file
+```
+$ git checkout master
+Switched to branch 'master'
+
+$ git branch -a
+* master
+  very-bad
+
+$ npp README.md
+
+$ git commit -am "Causing issues again in Git course"
+[master 2a5d893] Causing issues again in Git course
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git history
+* 2a5d893 (HEAD -> master) Causing issues again in Git course
+| * 24fd142 (very-bad) Very-bad updates in Git course
+|/
+* 4c641bb Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git history
+* 2a5d893 (HEAD -> master) Causing issues again in Git course
+| * 24fd142 (very-bad) Very-bad updates in Git course
+|/
+* 4c641bb Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+$ git merge very-bad
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Finally, let's go to merge now
+```
+$ git mergetool
+Merging:
+README.md
+
+Normal merge conflict for 'README.md':
+  {local}: modified file
+  {remote}: modified file
+warning: in the working copy of 'README.md', CRLF will be replaced by LF the next time Git touches it
+
+
+$ git status
+On branch master
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+Changes to be committed:
+        modified:   README.md
+
+
+$ git commit -m "Resolving conflicts in Git course"
+[master 848632c] Resolving conflicts in Git course
+
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+$ git history
+*   848632c (HEAD -> master) Resolving conflicts in Git course
+|\
+| * 4a2547c (very-bad) Updates in very-bad branch for Git course III
+* | a749b44 Updates in master branch for Git course III
+* | ff4dd3d Causing issues again in Git course III
+* | 583c22d Causing issues again in Git course II
+|\|
+| * 24fd142 Very-bad updates in Git course
+* | 2a5d893 Causing issues again in Git course
+|/
+* 4c641bb Adding some updates on a branch for the Git course
+* d845615 Update No.12 in Git Course
+* 489a920 Adding .gitignore to Git Course
+* 87e3ed0 Another update to documentation in Git Course
+* 04ce9bb Removing myfile from Git course
+* 7abddd5 Renaming myfile in Git Course
+* 4f41760 The myfile.txt was added to Git Course
+* d737204 Deleting demo file in Git Course
+* 8e03dfb Renaming files in Git Course
+* e8b4ab8 Adding example file to Git Course
+* b736503 Adding md files to Git Course
+* 2898aac Third commit in Git Course
+* 6ea6aed Second update in Git Course
+* a219a73 Adding initial files to Git Course
+
+```
+
+
 ##
 
 # Other commands
@@ -373,6 +772,22 @@ $ touch new.file
 ## To delete a file
 ```
 $ rm new.file
+```
+
+## To display the content of a file
+```
+$ cat Readme.md
+## Example file
+# Tracking
+This is the readme file.
+
+# Update
+(Second version)
+<<<<<<< HEAD
+Hope this is not a problem.
+=======
+This is bound to cause troubles.
+>>>>>>> very-bad
 ```
 
 ##
