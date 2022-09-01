@@ -8,12 +8,33 @@
 
 # Git Commands
 
+## To see the installed version
+```
+$ git version
+git version 2.37.2.windows.2
+```
+
 ## To start a new project folder in github
 ```
 $ git init demo 
 ```
-
 "demo" will create "demo" folder with the initilized git repository in the current directory
+
+
+## To change the default branch name
+```
+$ git branch -m main
+```
+
+## To specify a default branch in a specific folder
+```
+$ git init -b main local-folder
+```
+
+## To specify a default branch in a specific folder
+```
+$ git config --global init.defaultBranch main
+```
 
 ## To add files to the git track
 ```
@@ -1135,6 +1156,21 @@ b736503 Adding md files to Git Course
 6ea6aed Second update in Git Course
 a219a73 Adding initial files to Git Course
 ```
+
+## Fetch and Pull
+Merge conflicts betweem remote updates and local updates
+**Scenario**
+
+1. Update local
+2. Update on GitHub
+3. $ git fetch origin master
+4. $ git status 
+> This will give us a diverge alert.
+5. $ git pull origin master
+6. $ git history
+> Just to o confirm
+7. $ git push origin master
+
 
 ##
 
